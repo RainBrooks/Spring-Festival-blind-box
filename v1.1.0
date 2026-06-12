@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2026马年春节专属好运测试</title>
+    <style>
+        :root {
+            --primary-red: #d92027;
+            --dark-red: #a51c1c;
+            --gold: #ffd700;
+            --gold-light: #fff3a8;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: radial-gradient(circle at center, #bf2424 0%, var(--dark-red) 100%); /* 渐变中国红 */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        header { 
+            text-align: center; 
+            padding: 40px 20px 20px 20px; 
+        }
+        
+        h1 { 
+            margin: 0; 
+            font-size: 2.2rem; 
+            text-shadow: 2px 4px 8px rgba(0,0,0,0.4); 
+            letter-spacing: 2px;
+        }
+        
+        .subtitle { 
+            background: linear-gradient(135deg, var(--gold), #e6b800); 
+            color: var(--dark-red); 
+            padding: 6px 16px; 
+            border-radius: 20px; 
+            font-weight: bold; 
+            margin-top: 15px; 
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            font-size: 0.95rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            padding: 20px;
+            max-width: 400px;
+            width: 90%;
+            box-sizing: border-box;
+            margin-top: 10px;
+        }
+
+        .box {
+            background: linear-gradient(145deg, #ff4e50, var(--primary-red));
+            height: 140px;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 3px solid var(--gold);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 增加PC端悬停特效与移动端激活动效 */
+        @media (hover: hover) {
+            .box:hover { 
+                transform: translateY(-5px); 
+                box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
+                border-color: var(--gold-light);
+            }
+        }
+        .box:active { 
+            transform: scale(0.92); 
+        }
+
+        .box-num { font-size: 3.2rem; margin-bottom: 8px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); }
+        .box-label { font-size: 0.95rem; font-weight: bold; letter-spacing: 1px; opacity: 0.95; }
+
+        /* 弹窗遮罩 */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* 弹窗主体 */
+        .modal {
+            background: #fff;
+            color: #333;
+            width: 85%;
+            max-width: 320px;
+            padding: 35px 25px;
+            border-radius: 24px;
+            text-align: center;
+            position: relative;
+            border: 5px solid var(--gold);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transform: scale(0.7);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .overlay.show .modal {
+            transform: scale(1);
+        }
+
+        .modal h2 { 
+            color: var(--primary-red); 
+            margin: 0 0 15px 0; 
+            font-size: 1.6rem;
+        }
+        
+        .modal p { 
+            line-height: 1.7; 
+            font-size: 1.05rem; 
+            margin-bottom: 25px; 
+            color: #555;
+            word-break: break-all;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, var(--primary-red), #b81419);
+            color: #fff;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(217, 32, 39, 0.4);
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px rgba(217, 32, 39, 0.4);
+        }
+
+        /* 掉落物动画 */
+        .drop {
+            position: fixed;
+            top: -50px;
+            pointer-events: none;
+            z-index: 1000;
+            animation: fall linear forwards;
+            will-change: transform;
+        }
+        
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🐴 2026马年运势测验</h1>
+        <div class="subtitle">凭直觉选一个盒子，不许反悔</div>
+    </header>
+
+    <div class="grid">
+        <div class="box" onclick="play(1)">
+            <div class="box-num">🧧</div>
+            <div class="box-label">招财进宝</div>
+        </div>
+        <div class="box" onclick="play(2)">
+            <div class="box-num">🎁</div>
+            <div class="box-label">神秘惊喜</div>
+        </div>
+        <div class="box" onclick="play(3)">
+            <div class="box-num">🦄</div>
+            <div class="box-label">马到成功</div>
+        </div>
+        <div class="box" onclick="play(4)">
+            <div class="box-num">💎</div>
+            <div class="box-label">锦鲤加持</div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <h2 id="m-title"></h2>
+            <p id="m-content"></p>
+            <button class="btn" id="m-btn" onclick="closeModal()">我知道了</button>
+        </div>
+    </div>
+
+    <footer>© 2026 新春好运研究中心</footer>
+
+    <script>
+        // 记录当前激活的特殊按钮事件，方便解绑
+        let currentBtnAction = null;
+
+        function play(id) {
+            const overlay = document.getElementById('overlay');
+            const title = document.getElementById('m-title');
+            const content = document.getElementById('m-content');
+            const btn = document.getElementById('m-btn');
+            
+            // 重置按钮默认文字和样式
+            btn.innerText = "我知道了";
+            if(currentBtnAction) {
+                btn.removeEventListener('click', currentBtnAction);
+                currentBtnAction = null;
+            }
+
+            if (id === 1) {
+                title.innerText = "💰 暴富预警";
+                content.innerText = "恭喜你！选中了全场唯一的【真·福气盒】！2026年你的财运将如万马奔腾，挡都挡不住！";
+                makeRain('💰');
+                makeRain('🧧'); // 混合红包，效果更好
+            } else if (id === 2) {
+                title.innerText = "💨 空空如也";
+                content.innerText = "哎呀，这个盒子里只有一阵清风。说明你的烦恼都被吹走啦！\n\n（其实是好运未激活，请发红包给发件人进行充值解锁 😜）";
+                btn.innerText = "微信发红包去";
+            } else if (id === 3) {
+                title.innerText = "⏰ 努力奋斗";
+                content.innerText = "运势显示：2026年你依然要准时上班/上课。别伤心，虽然不能直接躺平，但你今年搬砖的姿势绝对比去年更帅！";
+            } else if (id === 4) {
+                title.innerText = "🔒 锁定状态";
+                content.innerText = "该顶级好运已被加密！私信发件人一句“你是大笨猪”，即可让对方手动为你解锁隐藏的终极祝福。";
+                btn.innerText = "复制暗号并关闭";
+                
+                // 绑定复制暗号功能
+                currentBtnAction = function() {
+                    navigator.clipboard.writeText("你是大笨猪").then(() => {
+                        alert("暗号‘你是大笨猪’已复制到剪贴板，快去发给Ta吧！");
+                    }).catch(() => {
+                        // 兼容部分不支持 clipboard API 的浏览器
+                        alert("请手动发送‘你是大笨猪’给发件人解锁！");
+                    });
+                };
+                btn.addEventListener('click', currentBtnAction);
+            }
+
+            // 显示弹窗（带动画过渡）
+            overlay.style.display = 'flex';
+            setTimeout(() => {
+                overlay.classList.add('show');
+            }, 10);
+        }
+
+        function closeModal() {
+            const overlay = document.getElementById('overlay');
+            overlay.classList.remove('show');
+            // 等待动画结束后隐藏 DOM
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 300);
+        }
+
+        // 点击遮罩层空白处也可以关闭弹窗
+        function handleOverlayClick(event) {
+            closeModal();
+        }
+
+        // 优化后的雨水特效，防内存泄漏
+        function makeRain(emoji) {
+            const maxDrops = 35; // 控制在一屏内的总数量，避免卡顿
+            const container = document.body;
+
+            for (let i = 0; i < maxDrops; i++) {
+                const div = document.createElement('div');
+                div.innerText = emoji;
+                div.className = 'drop';
+                
+                // 随机位置和大小
+                div.style.left = Math.random() * 100 + 'vw';
+                div.style.fontSize = (Math.random() * 20 + 24) + 'px'; // 稍微放大图标
+                
+                // 随机下落时间与延迟，让下落错落有致
+                const duration = Math.random() * 1.5 + 1.5; // 1.5s - 3s
+                const delay = Math.random() * 0.5;
+                div.style.animationDuration = duration + 's';
+                div.style.animationDelay = delay + 's';
+                
+                container.appendChild(div);
+                
+                // 动画结束后立即销毁元素
+                setTimeout(() => {
+                    div.remove();
+                }, (duration + delay) * 1000);
+            }
+        }
+    </script>
+</body>
+</html>
+        </div>
+    </div>
+
+    <footer>© 2026 新春好运研究中心</footer>
+
+    <script>
+        // 记录当前激活的特殊按钮事件，方便解绑
+        let currentBtnAction = null;
+
+        function play(id) {
+            const overlay = document.getElementById('overlay');
+            const title = document.getElementById('m-title');
+            const content = document.getElementById('m-content');
+            const btn = document.getElementById('m-btn');
+            
+            // 重置按钮默认文字和样式
+            btn.innerText = "我知道了";
+            if(currentBtnAction) {
+                btn.removeEventListener('click', currentBtnAction);
+                currentBtnAction = null;
+            }
+
+            if (id === 1) {
+                title.innerText = "💰 暴富预警";
+                content.innerText = "恭喜你！选中了全场唯一的【真·福气盒】！2026年你的财运将如万马奔腾，挡都挡不住！";
+                makeRain('💰');
+                makeRain('🧧'); // 混合红包，效果更好
+            } else if (id === 2) {
+                title.innerText = "💨 空空如也";
+                content.innerText = "哎呀，这个盒子里只有一阵清风。说明你的烦恼都被吹走啦！\n\n（其实是好运未激活，请发红包给发件人进行充值解锁 😜）";
+                btn.innerText = "微信发红包去";
+            } else if (id === 3) {
+                title.innerText = "⏰ 努力奋斗";
+                content.innerText = "运势显示：2026年你依然要准时上班/上课。别伤心，虽然不能直接躺平，但你今年搬砖的姿势绝对比去年更帅！";
+            } else if (id === 4) {
+                title.innerText = "🔒 锁定状态";
+                content.innerText = "该顶级好运已被加密！私信发件人一句“你是大笨猪”，即可让对方手动为你解锁隐藏的终极祝福。";
+                btn.innerText = "复制暗号并关闭";
+                
+                // 绑定复制暗号功能
+                currentBtnAction = function() {
+                    navigator.clipboard.writeText("你是大笨猪").then(() => {
+                        alert("暗号‘你是大笨猪’已复制到剪贴板，快去发给Ta吧！");
+                    }).catch(() => {
+                        // 兼容部分不支持 clipboard API 的浏览器
+                        alert("请手动发送‘你是大笨猪’给发件人解锁！");
+                    });
+                };
+                btn.addEventListener('click', currentBtnAction);
+            }
+
+            // 显示弹窗（带动画过渡）
+            overlay.style.display = 'flex';
+            setTimeout(() => {
+                overlay.classList.add('show');
+            }, 10);
+        }
+
+        function closeModal() {
+            const overlay = document.getElementById('overlay');
+            overlay.classList.remove('show');
+            // 等待动画结束后隐藏 DOM
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 300);
+        }
+
+        // 点击遮罩层空白处也可以关闭弹窗
+        function handleOverlayClick(event) {
+            closeModal();
+        }
+
+        // 优化后的雨水特效，防内存泄漏
+        function makeRain(emoji) {
+            const maxDrops = 35; // 控制在一屏内的总数量，避免卡顿
+            const container = document.body;
+
+            for (let i = 0; i < maxDrops; i++) {
+                const div = document.createElement('div');
+                div.innerText = emoji;
+                div.className = 'drop';
+                
+                // 随机位置和大小
+                div.style.left = Math.random() * 100 + 'vw';
+                div.style.fontSize = (Math.random() * 20 + 24) + 'px'; // 稍微放大图标
+                
+                // 随机下落时间与延迟，让下落错落有致
+                const duration = Math.random() * 1.5 + 1.5; // 1.5s - 3s
+                const delay = Math.random() * 0.5;
+                div.style.animationDuration = duration + 's';
+                div.style.animationDelay = delay + 's';
+                
+                container.appendChild(div);
+                
+                // 动画结束后立即销毁元素
+                setTimeout(() => {
+                    div.remove();
+                }, (duration + delay) * 1000);
+            }
+        }
+    </script>
+</body>
+</html>
