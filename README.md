@@ -1,19 +1,74 @@
-# 🧧 2026 农历马年春节专属好运测试 (New Year Luck Test 2026)
+# 🧧 2026马年新春好运测试 (New Year Luck Test 2026)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](#)
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)](#)
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)](#)
 
-一个纯原生（HTML5 + CSS3 + Vanilla JS）开发的**2026马年春节主题**趣味好运测试单页面。拥有浓郁的国潮中国风视觉设计、丝滑的移动端交互体验以及趣味十足的“玄学”测试结果，极适合用于春节期间的朋友圈互动、群聊分享或个人主页整蛊。
+> **✨ 2026 跨世代视觉重构版**：打破传统扁平化设计，将 Google **Material 3** 动态色彩圆角规范与现代 **Glassmorphism（液态玻璃）** 拟真美学完美融合，打造极致丝滑的国潮新春玄学互动体验。
 
 ---
 
-## ✨ 项目特性
+## 🎨 视觉与体验升级
 
-* **🏮 纯正中国风视觉**：采用经典的“中国红 + 璀璨金”配色，搭配细腻的渐变与阴影，秒入新春氛围。
-* **📱 完美移动端适配**：原生支持流式布局与 `Viewport` 锁定，防误触放大，专为微信、手机浏览器触控优化。
-* **🎉 动态粒子特效**：首个选项独家触发**“暴富金币雨”**动画，采用原生 JS 动态生成，不依赖任何第三方动画库。
+* **💎 液态玻璃质感 (Liquid Glass)**：利用高级的 `backdrop-filter` 高斯模糊与多层半透明叠加，卡片边缘自带仿玻璃折射的“微光边框 (Border-glow)”。
+* **📐 Material 3 规范适配**：全面引入 M3 响应式暗色调系统（Deep Wine 内脏红氛围），并严格遵循 M3 Large/Extra Large Token 圆角规范（28px/32px），视觉更圆润、更具现代感。
+* **🌊 流体态触控反馈**：精心调校物理受压动画，点击卡片时伴随微弱的浮雕阴影坍塌，模拟流体与玻璃的物理质感。
+* **🔋 健壮性与性能优化**：
+  * 引入**动态粒子自动销毁机制**，多次连续点击触发“金币/红包雨”绝不卡顿，防内存泄漏。
+  * 智能弹窗交互，支持点击空白遮罩一键关闭。
+  * 完美集成 Clipboard API，整蛊暗号支持一键复制。
+
+---
+
+## 📦 分支路线图 (Branch Roadmap)
+
+为了满足不同场景的审美需求，本仓库现维护两个视觉版本：
+
+* **`main` 分支 (当前主分支)**：**v2.0.0 Material 3 × 液态玻璃流体版** 🚀
+  * *特点*：极光微光、重度雾化玻璃、充满未来科技感的国潮风（推荐）。
+* **`v1-classic-red` 分支 (备用分支)**：**v1.1.0 经典纯正中国红功能完善版** 🏮
+  * *特点*：最纯正浓郁的传统中国红渐变背景，适合纯粹的传统新春场景。
+
+---
+
+## 📸 界面预览
+
+| 📱 首页布局 (M3 Grid) | 💰 金币红包雨特效 (Modal & Animation) |
+| :---: | :---: |
+| <img src="https://via.placeholder.com/300x600/230808/ffffff?text=M3+Glass+Interface" width="240" alt="M3玻璃主界面"/> | <img src="https://via.placeholder.com/300x600/4A1212/ffd700?text=Liquid+Rain+Effect" width="240" alt="粒子下落特效"/> |
+
+---
+
+## 🚀 快速启动与部署
+
+本项目为**零依赖**的纯前端页面，加载速度极快：
+
+### 1. 本地体验
+1. 克隆本项目：`git clone https://github.com/你的用户名/你的仓库名.git`
+2. 双击 `index.html` 即可在任意现代浏览器中完美渲染。
+
+### 2. 静态部署 (支持微信内分享)
+* **GitHub Pages**：在仓库的 `Settings -> Pages` 中将 Source 设置为 `main` 分支的 `/ (root)`，保存后即可获得免费的线上链接。
+* **Vercel / Netlify**：直接导入此仓库，无需任何构建命令，一键秒级发布。
+
+---
+
+## 🛠️ 关键技术栈
+
+* **CSS Grid & Flexbox**：实现弹性响应式九宫格。
+* **CSS Custom Variables**：提取 Material 3 色彩令牌（`--m3-primary` 等），支持一键无缝换肤。
+* **Vanilla JS (ES6+)**：纯原生 JavaScript 驱动粒子动效，拒绝多余体积。
+
+---
+
+## 📜 开源协议
+
+本项目基于 **[MIT License](LICENSE)** 协议开源。你可以自由商用、整蛊、或者魔改文案。
+
+---
+
+祝大家在 2026 马年：**马到成功，暴富预警！🐴✨**
 * **🎭 趣味互动文案**：
     * **红包盒**：触发大吉大利的财运金币雨。
     * **礼物盒**：幽默的“未充值”整蛊提示。
