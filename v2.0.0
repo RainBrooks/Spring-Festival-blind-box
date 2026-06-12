@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2026马年春节专属好运测试 — Material 3 & Glass</title>
+    <style>
+        :root {
+            /* Material 3 调色板基准 (暗色模式/新春特调) */
+            --m3-primary: #FFB4AB;
+            --m3-on-primary: #690005;
+            --m3-primary-container: #93000A;
+            --m3-on-primary-container: #FFDAD6;
+            --m3-surface: #1A1110;
+            --m3-surface-variant: #534341;
+            --m3-on-surface: #F0DFDE;
+            --gold: #FFD700;
+            
+            /* 液态玻璃核心变量 */
+            --glass-bg: rgba(255, 255, 255, 0.07);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-highlight: rgba(255, 215, 0, 0.25);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'PingFang SC', system-ui, -apple-system, sans-serif;
+            /* Material 3 氛围有色背景 */
+            background: radial-gradient(130% 80% at top center, #4A1212 0%, #230808 50%, var(--m3-surface) 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--m3-on-surface);
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        header { 
+            text-align: center; 
+            padding: 50px 20px 20px 20px; 
+        }
+        
+        h1 { 
+            margin: 0; 
+            font-size: 2.4rem; 
+            font-weight: 600;
+            color: #FFF;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.6); 
+            letter-spacing: 1px;
+        }
+        
+        /* Material 3 药丸形状标签 */
+        .subtitle { 
+            background: var(--m3-primary-container); 
+            color: var(--m3-on-primary-container); 
+            padding: 8px 20px; 
+            border-radius: 100px; /* M3 Full Shape */
+            font-weight: 500; 
+            margin-top: 18px; 
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 24px;
+            max-width: 420px;
+            width: 92%;
+            box-sizing: border-box;
+        }
+
+        /* 液态玻璃卡片 + Material 3 大型圆角(Medium/Large Tokens) */
+        .box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            height: 150px;
+            border-radius: 28px; /* M3 Large Rounding */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            
+            /* 高级流体玻璃边框 */
+            border: 1px solid var(--glass-border);
+            border-top: 1.5px solid rgba(255, 255, 255, 0.3); /* 顶部高光 */
+            
+            /* M3 有色动态阴影 */
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), 
+                        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+        }
+
+        /* 悬停与流体态触控交互 */
+        @media (hover: hover) {
+            .box:hover { 
+                transform: translateY(-6px) scale(1.02); 
+                background: rgba(255, 255, 255, 0.12);
+                border-color: var(--glass-highlight);
+                box-shadow: 0 12px 40px rgba(147, 0, 10, 0.4),
+                            inset 0 1px 4px rgba(255, 255, 255, 0.2);
+            }
+        }
+        
+        /* 模拟液态受压塌陷感 */
+        .box:active { 
+            transform: scale(0.94); 
+            background: rgba(255, 255, 255, 0.03);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5),
+                        inset 0 4px 12px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .box-num { 
+            font-size: 3.4rem; 
+            margin-bottom: 6px; 
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3)); 
+            transition: transform 0.3s ease;
+        }
+        .box:active .box-num {
+            transform: scale(0.9);
+        }
+
+        .box-label { 
+            font-size: 0.95rem; 
+            font-weight: 500; 
+            color: var(--m3-on-surface);
+            opacity: 0.9; 
+            letter-spacing: 0.5px;
+        }
+
+        /* 弹窗遮罩 */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 10, 10, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            opacity: 0;
+            transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* 液态玻璃重度雾化弹窗 + M3 Extra Large 圆角 */
+        .modal {
+            background: rgba(35, 25, 25, 0.75);
+            border-radius: 32px; /* M3 Extra Large Token */
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-top: 1.5px solid rgba(255, 255, 255, 0.25);
+            color: var(--m3-on-surface);
+            width: 85%;
+            max-width: 340px;
+            padding: 40px 28px;
+            text-align: center;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6),
+                        inset 0 1px 2px rgba(255, 255, 255, 0.15);
+            transform: scale(0.85) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .overlay.show .modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal h2 { 
+            color: var(--m3-primary); 
+            margin: 0 0 16px 0; 
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .modal p { 
+            line-height: 1.7; 
+            font-size: 1.05rem; 
+            margin-bottom: 32px; 
+            color: var(--m3-on-surface);
+            opacity: 0.85;
+            white-space: pre-line;
+        }
+        
+        /* Material 3 Filled Button 规范 */
+        .btn {
+            background: var(--m3-primary);
+            color: var(--m3-on-primary);
+            border: none;
+            padding: 14px 36px;
+            border-radius: 100px; /* M3 Full Shape for Buttons */
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.2s ease;
+            outline: none;
+            letter-spacing: 0.5px;
+        }
+
+        @media (hover: hover) {
+            .btn:hover {
+                box-shadow: 0 8px 20px rgba(255, 180, 171, 0.3);
+                transform: translateY(-2px);
+                filter: brightness(1.05);
+            }
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            filter: brightness(0.95);
+        }
+
+        /* 动态物理掉落 */
+        .drop {
+            position: fixed;
+            top: -50px;
+            pointer-events: none;
+            z-index: 1000;
+            animation: fall linear forwards;
+            will-change: transform;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+        
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 30px 20px;
+            font-size: 0.8rem;
+            opacity: 0.4;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🐴 2026 运势测验</h1>
+        <div class="subtitle">Material 3 × Liquid Glass</div>
+    </header>
+
+    <div class="grid">
+        <div class="box" onclick="play(1)">
+            <div class="box-num">🧧</div>
+            <div class="box-label">招财进宝</div>
+        </div>
+        <div class="box" onclick="play(2)">
+            <div class="box-num">🎁</div>
+            <div class="box-label">神秘惊喜</div>
+        </div>
+        <div class="box" onclick="play(3)">
+            <div class="box-num">🦄</div>
+            <div class="box-label">马到成功</div>
+        </div>
+        <div class="box" onclick="play(4)">
+            <div class="box-num">💎</div>
+            <div class="box-label">锦鲤加持</div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closeModal()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <h2 id="m-title"></h2>
+            <p id="m-content"></p>
+            <button class="btn" id="m-btn" onclick="closeModal()">我知道了</button>
+        </div>
+    </div>
+
+    <footer>© 2026 新春好运研究中心 · M3 Design</footer>
+
+    <script>
+        let currentBtnAction = null;
+
+        function play(id) {
+            const overlay = document.getElementById('overlay');
+            const title = document.getElementById('m-title');
+            const content = document.getElementById('m-content');
+            const btn = document.getElementById('m-btn');
+            
+            btn.innerText = "我知道了";
+            if(currentBtnAction) {
+                btn.removeEventListener('click', currentBtnAction);
+                currentBtnAction = null;
+            }
+
+            if (id === 1) {
+                title.innerText = "💰 暴富预警";
+                content.innerText = "恭喜你！选中了全场唯一的【真·福气盒】！\n2026年你的财运将如万马奔腾，挡都挡不住！";
+                makeRain('💰');
+                makeRain('🧧');
+            } else if (id === 2) {
+                title.innerText = "💨 空空如也";
+                content.innerText = "哎呀，这个盒子里只有一阵清风。说明你的烦恼都被吹走啦！\n\n（其实是好运未激活，请发红包给发件人进行充值解锁 😜）";
+                btn.innerText = "去充值激活";
+            } else if (id === 3) {
+                title.innerText = "⏰ 努力奋斗";
+                content.innerText = "运势显示：2026年你依然要准时上班/上课。\n别伤心，虽然不能直接躺平，但你今年搬砖的姿势绝对比去年更帅！";
+            } else if (id === 4) {
+                title.innerText = "🔒 锁定状态";
+                content.innerText = "该顶级好运已被加密！\n私信发件人一句“你是大笨猪”，即可让对方手动为你解锁隐藏的终极祝福。";
+                btn.innerText = "复制暗号并关闭";
+                
+                currentBtnAction = function() {
+                    navigator.clipboard.writeText("你是大笨猪").then(() => {
+                        alert("暗号‘你是大笨猪’已复制，快去整蛊发件人吧！");
+                    }).catch(() => {
+                        alert("请手动发送‘你是大笨猪’给发件人解锁！");
+                    });
+                };
+                btn.addEventListener('click', currentBtnAction);
+            }
+
+            overlay.style.display = 'flex';
+            setTimeout(() => {
+                overlay.classList.add('show');
+            }, 10);
+        }
+
+        function closeModal() {
+            const overlay = document.getElementById('overlay');
+            overlay.classList.remove('show');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 400);
+        }
+
+        function makeRain(emoji) {
+            const maxDrops = 30;
+            const container = document.body;
+
+            for (let i = 0; i < maxDrops; i++) {
+                const div = document.createElement('div');
+                div.innerText = emoji;
+                div.className = 'drop';
+                
+                div.style.left = Math.random() * 100 + 'vw';
+                div.style.fontSize = (Math.random() * 15 + 24) + 'px';
+                
+                const duration = Math.random() * 1.5 + 1.5;
+                const delay = Math.random() * 0.4;
+                div.style.animationDuration = duration + 's';
+                div.style.animationDelay = delay + 's';
+                
+                container.appendChild(div);
+                
+                setTimeout(() => {
+                    div.remove();
+                }, (duration + delay) * 1000);
+            }
+        }
+    </script>
+</body>
+</html>
